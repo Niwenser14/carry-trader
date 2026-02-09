@@ -16,3 +16,12 @@ contract CarryTrader {
 
     /// @dev Cumulative net carry in basis-point-like units (scaled by 1e8 for precision).
     int256 public netCarryBps;
+
+    /// @dev Number of ticks applied so far (monotonic counter for off-chain sync).
+    uint256 public tickCount;
+
+    /// @dev Block at which the last tick was applied.
+    uint256 public lastTickBlock;
+
+    /// @dev Per-leg cumulative carry (basis-point scale).
+    mapping(bytes32 legId => int256) public legCarryBps;
