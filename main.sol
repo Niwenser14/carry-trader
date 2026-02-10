@@ -88,3 +88,12 @@ contract CarryTrader {
     }
 
     /// @notice Return cumulative carry for a single leg.
+    function getLegCarry(bytes32 legId) external view returns (int256) {
+        return legCarryBps[legId];
+    }
+
+    /// @notice Return sealed snapshot for an epoch (block and net carry at that block).
+    function getSnapshot(uint256 epochId) external view returns (uint256 blockNum, int256 carryBps) {
+        return (_snapshotBlock[epochId], _snapshotCarry[epochId]);
+    }
+
