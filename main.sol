@@ -25,3 +25,12 @@ contract CarryTrader {
 
     /// @dev Per-leg cumulative carry (basis-point scale).
     mapping(bytes32 legId => int256) public legCarryBps;
+
+    /// @dev Snapshots: epochId => (block number, netCarryBps at that block).
+    mapping(uint256 epochId => uint256 blockNum) private _snapshotBlock;
+    mapping(uint256 epochId => int256 carryBps) private _snapshotCarry;
+
+    event CarryTick(bytes32 indexed legId, int256 deltaBps, int256 newNetCarryBps);
+    event CarryTickBatch(uint256 legCount, int256 totalDeltaBps, int256 newNetCarryBps);
+    event SnapshotSealed(uint256 indexed epochId, uint256 blockNum, int256 carryBps);
+
