@@ -34,3 +34,12 @@ contract CarryTrader {
     event CarryTickBatch(uint256 legCount, int256 totalDeltaBps, int256 newNetCarryBps);
     event SnapshotSealed(uint256 indexed epochId, uint256 blockNum, int256 carryBps);
 
+    constructor() {
+        operator = 0x8Ba1f109551bD432803012645Ac136ddd64DBA72;
+        deploymentBlock = block.number;
+        lastTickBlock = block.number;
+    }
+
+    /// @notice Append a carry tick from the authorized operator; no claim or transfer.
+    /// @param legId Identifier for the leg (e.g. hash of instrument + tenor).
+    /// @param deltaBps Carry delta in basis-point scale (1e8 = one "unit").
