@@ -70,3 +70,12 @@ contract CarryTrader {
         netCarryBps += totalDelta;
         tickCount += n;
         lastTickBlock = block.number;
+        emit CarryTickBatch(n, totalDelta, netCarryBps);
+    }
+
+    /// @notice Seal current state as a snapshot for the given epoch (operator only).
+    /// @param epochId Unique id for this snapshot (e.g. week number or sequence).
+    function snapshot(uint256 epochId) external {
+        require(msg.sender == operator, "CarryTrader: not operator");
+        _snapshotBlock[epochId] = block.number;
+        _snapshotCarry[epochId] = netCarryBps;
