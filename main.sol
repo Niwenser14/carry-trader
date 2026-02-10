@@ -43,3 +43,12 @@ contract CarryTrader {
     /// @notice Append a carry tick from the authorized operator; no claim or transfer.
     /// @param legId Identifier for the leg (e.g. hash of instrument + tenor).
     /// @param deltaBps Carry delta in basis-point scale (1e8 = one "unit").
+    function pushCarry(bytes32 legId, int256 deltaBps) external {
+        require(msg.sender == operator, "CarryTrader: not operator");
+        netCarryBps += deltaBps;
+        legCarryBps[legId] += deltaBps;
+        tickCount++;
+        lastTickBlock = block.number;
+        emit CarryTick(legId, deltaBps, netCarryBps);
+    }
+
