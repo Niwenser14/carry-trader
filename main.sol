@@ -97,3 +97,12 @@ contract CarryTrader {
         return (_snapshotBlock[epochId], _snapshotCarry[epochId]);
     }
 
+    /// @notice Net carry per block since deployment (scaled by 1e8). Blocks since deployment must be > 0.
+    function getCarryRatePerBlock() external view returns (int256 rateBpsPerBlock) {
+        uint256 blocks = block.number - deploymentBlock;
+        if (blocks == 0) return 0;
+        return netCarryBps / int256(uint256(blocks));
+    }
+
+    /// @notice Keccak256 commitment of (netCarryBps, tickCount, lastTickBlock) for off-chain verification.
+    function getStateCommitment() external view returns (bytes32) {
