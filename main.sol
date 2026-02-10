@@ -106,3 +106,6 @@ contract CarryTrader {
 
     /// @notice Keccak256 commitment of (netCarryBps, tickCount, lastTickBlock) for off-chain verification.
     function getStateCommitment() external view returns (bytes32) {
+        return keccak256(abi.encode(LEG_SEED, netCarryBps, tickCount, lastTickBlock));
+    }
+}
