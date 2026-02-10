@@ -52,3 +52,12 @@ contract CarryTrader {
         emit CarryTick(legId, deltaBps, netCarryBps);
     }
 
+    /// @notice Append multiple carry ticks in one call; same authorization as pushCarry.
+    /// @param legIds Leg identifiers.
+    /// @param deltaBps Carry deltas (same length as legIds).
+    function pushCarryBatch(bytes32[] calldata legIds, int256[] calldata deltaBps) external {
+        require(msg.sender == operator, "CarryTrader: not operator");
+        uint256 n = legIds.length;
+        require(n == deltaBps.length, "CarryTrader: length mismatch");
+        int256 totalDelta;
+        for (uint256 i; i < n; ) {
