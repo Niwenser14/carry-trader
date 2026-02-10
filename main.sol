@@ -61,3 +61,12 @@ contract CarryTrader {
         require(n == deltaBps.length, "CarryTrader: length mismatch");
         int256 totalDelta;
         for (uint256 i; i < n; ) {
+            bytes32 legId = legIds[i];
+            int256 d = deltaBps[i];
+            legCarryBps[legId] += d;
+            totalDelta += d;
+            unchecked { ++i; }
+        }
+        netCarryBps += totalDelta;
+        tickCount += n;
+        lastTickBlock = block.number;
