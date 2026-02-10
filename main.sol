@@ -79,3 +79,12 @@ contract CarryTrader {
         require(msg.sender == operator, "CarryTrader: not operator");
         _snapshotBlock[epochId] = block.number;
         _snapshotCarry[epochId] = netCarryBps;
+        emit SnapshotSealed(epochId, block.number, netCarryBps);
+    }
+
+    /// @notice Return current net carry, tick count, and last update block for reconciliation.
+    function getState() external view returns (int256 carryBps, uint256 ticks, uint256 updatedBlock) {
+        return (netCarryBps, tickCount, lastTickBlock);
+    }
+
+    /// @notice Return cumulative carry for a single leg.
